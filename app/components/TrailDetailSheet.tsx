@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { Trail } from "@/app/types/trail"
+import ElevationProfile from "./ElevationProfile"
 
 export interface TrailDetailSheetProps {
   trail: Trail | null
@@ -25,7 +26,7 @@ export const TrailDetailSheet: React.FC<TrailDetailSheetProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex items-end justify-center bg-black/40 backdrop-blur-sm"
+      className="fixed inset-0 z-40 flex items-end justify-center bg-black/45 backdrop-blur-sm"
       aria-modal="true"
       role="dialog"
     >
@@ -34,13 +35,9 @@ export const TrailDetailSheet: React.FC<TrailDetailSheetProps> = ({
         onClick={onClose}
         aria-hidden="true"
       />
-      <Card
-        className={cn(
-          "relative z-50 w-full max-w-md rounded-t-3xl border-slate-800/90 bg-[#020817] pb-4 pt-2 text-slate-50 shadow-[0_-18px_60px_rgba(15,23,42,0.95)]"
-        )}
-      >
+      <Card className="relative z-50 w-full max-w-md rounded-t-3xl border-slate-800/90 bg-[#020817] pb-4 pt-2 text-slate-50 shadow-[0_-18px_60px_rgba(2,6,23,0.98)]">
         <div className="mx-auto mb-2 mt-1 h-1 w-12 rounded-full bg-slate-700" />
-        <CardContent className="max-h-[70vh] space-y-4 overflow-y-auto px-4 pb-0">
+        <CardContent className="max-h-[72vh] space-y-4 overflow-y-auto px-4 pb-0">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
               <h2 className="text-[20px] font-semibold tracking-tight text-slate-50">
@@ -58,7 +55,7 @@ export const TrailDetailSheet: React.FC<TrailDetailSheetProps> = ({
               onClick={onClose}
               className="h-10 w-10 rounded-full bg-slate-900/80 text-slate-400 hover:bg-slate-800"
             >
-              ×
+              5d9
             </Button>
           </div>
 
@@ -70,8 +67,8 @@ export const TrailDetailSheet: React.FC<TrailDetailSheetProps> = ({
               </span>
             </div>
             <div className="flex flex-col rounded-2xl bg-slate-900/70 px-2.5 py-2">
-              <span className="text-[9px] text-slate-500">Elevation</span>
-              <span className="text-[13px] font-semibold text-slate-50">
+              <span className="text-[9px] text-slate-500">Elevation gain</span>
+              <span className="text-[13px] font-semibold text-emerald-400">
                 {trail.elevationGainM} m
               </span>
             </div>
@@ -79,6 +76,27 @@ export const TrailDetailSheet: React.FC<TrailDetailSheetProps> = ({
               <span className="text-[9px] text-slate-500">Est. time</span>
               <span className="text-[13px] font-semibold text-slate-50">
                 {trail.durationHours.toFixed(1)} h
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 text-[9px] text-slate-400">
+            <div className="flex flex-col rounded-2xl bg-slate-950/80 px-2.5 py-1.5">
+              <span className="text-[8px] text-slate-500">Highest point</span>
+              <span className="text-[11px] font-semibold text-slate-100">
+                {trail.highestPointM} m
+              </span>
+            </div>
+            <div className="flex flex-col rounded-2xl bg-slate-950/80 px-2.5 py-1.5">
+              <span className="text-[8px] text-slate-500">Lowest point</span>
+              <span className="text-[11px] font-semibold text-slate-100">
+                {trail.lowestPointM} m
+              </span>
+            </div>
+            <div className="flex flex-col rounded-2xl bg-slate-950/80 px-2.5 py-1.5">
+              <span className="text-[8px] text-slate-500">Avg grade est.</span>
+              <span className="text-[11px] font-semibold text-emerald-300">
+                {Math.round((trail.elevationGainM / (trail.distanceKm * 10)) * 10)}%
               </span>
             </div>
           </div>
@@ -109,6 +127,8 @@ export const TrailDetailSheet: React.FC<TrailDetailSheetProps> = ({
               </span>
             </span>
           </div>
+
+          <ElevationProfile points={trail.elevationProfile} />
 
           <div>
             <p className="text-[11px] leading-relaxed text-slate-300">
